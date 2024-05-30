@@ -74,4 +74,4 @@ This architecture ensures a robust, scalable, and efficient data pipeline capabl
 ---
 
  
- > I will explain everything on [omkale.dev](https://omkale.dev/)
+ > I will explain everything on [omkale.dev](https://omkale.dev/) or [Youtube](https://www.youtube.com/channel/UChz8grPC9BR7x9BvEEuuO-A)
