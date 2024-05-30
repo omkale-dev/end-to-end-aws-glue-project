@@ -5,6 +5,10 @@ Welcome to the AWS Glue Data Pipeline project! This document provides an overvie
 
 ## Architecture Overview 🏗️
 
+![Architecture Diagram](https://github.com/omkale-dev/end-to-end-aws-glue-project/blob/main/Architecture.png?raw=true)
+
+
+
 Our data pipeline architecture leverages a combination of AWS services to ingest, process, and analyze data efficiently. Here's a breakdown of the key components and their roles:
 
 
