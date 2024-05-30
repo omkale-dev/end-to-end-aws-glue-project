@@ -1,0 +1,71 @@
+# change the bucket names
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  GlueAssetsRootFolder:
+    Type: String
+    Default: s3://pf-code-assets
+  
+  GlueIamRole:
+    Type: String
+    Default: aws_glue_full_access                                                                                                     
+  ScriptFolder:
+    Type: String
+    Default: bronze_2_silver/src
+  
+  ResourcesFolder:
+    Type: String
+    Default: bronze_2_silver/resources
+
+  ScriptName:
+    Type: String
+    Default: bronze_2_silver.py
+  
+  JobName:
+    Type: String
+    Default: test_b2s
+  
+  HelperFunctionsFolder:
+    Type: String
+    Default: lib
+
+  HelperFunctions:
+    Type: String
+    Default : helper_functions.py
+
+  DeltaLakeFormat:
+    Type: String
+    Default: delta
+  
+  MappingFile:
+    Type: String
+    Default: mapping.csv
+    
+Resources:
+  GlueJob:
+      Type: AWS::Glue::Job   
+      Properties:
+        Name: !Ref JobName
+        Role: !Ref GlueIamRole
+        Description: Glue job that gets data from bronze to silver
+        Command:   
+          Name: glueetl
+          PythonVersion: 3
+          ScriptLocation: 
+            Fn::Join: [ "/", [!Ref GlueAssetsRootFolder, !Ref ScriptFolder, !Ref ScriptName] ]
+        GlueVersion: 4.0
+        DefaultArguments:
+          "--extra-py-files": 
+              Fn::Join: [ "/", [!Ref GlueAssetsRootFolder,!Ref HelperFunctionsFolder,!Ref HelperFunctions] ]
+          "--extra-files": 
+              Fn::Join: [ "/", [!Ref GlueAssetsRootFolder, !Ref ResourcesFolder, !Ref MappingFile] ]
+          "--datalake-formats": !Ref DeltaLakeFormat
+          "--enable-glue-datacatalog": true
+        NumberOfWorkers: 2
+        WorkerType: G.1X
+        MaxRetries: 0
+        Timeout: 30
+        ExecutionProperty:   
+          MaxConcurrentRuns: 1
+
+

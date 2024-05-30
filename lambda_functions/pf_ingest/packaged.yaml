@@ -1,0 +1,19 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Lambda function that ingests data from the given apis to s3
+Globals:
+  Function:
+    Timeout: 40
+Resources:
+  PfIngest:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: pf_ingest
+      CodeUri: s3://pf-code-pipeline-bucket/################
+      Handler: app.lambda_handler
+      Runtime: python3.11
+      Role: arn:aws:iam::<your account id>:role/lambda_full_access
+      Architectures:
+      - x86_64
+    Metadata:
+      SamResourceId: PfIngest

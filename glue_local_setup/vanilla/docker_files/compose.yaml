@@ -1,0 +1,40 @@
+version: '1'
+x-volume-mounts: &volume_definition
+    - ~/.aws:/home/glue_user/.aws # change the file path to your .aws folder
+    - ~/<your path>/pf-code-repo/glue_jobs:/home/glue_user/workspace/jupyter_workspace/  # change the path to your workspace
+   
+services:
+  glue_jupyter:
+    image: amazon/aws-glue-libs:glue_libs_4.0.0_image_01
+    container_name: glue_jupyter_lab
+    volumes: *volume_definition
+    environment:
+      - AWS_PROFILE=default
+      - DISABLE_SSL=true
+      - PYTHONPATH=/home/glue_user/workspace/jupyter_workspace/lib
+      - LAB_TOKEN = "none"
+    ports:
+      - 4040:4040
+      - 18080:18080 
+      - 8998:8998 
+      - 8888:8888
+    command: /home/glue_user/jupyter/jupyter_start.sh
+  
+  glue_script:
+    image: amazon/aws-glue-libs:glue_libs_4.0.0_image_01
+    container_name: glue_spark_submit
+    command: spark-submit /home/glue_user/workspace/jupyter_workspace/the_glue_job_one/src/job_one.py  # change the file path
+    environment:
+      - AWS_PROFILE=default
+      - DISABLE_SSL=true
+      - PYTHONPATH=/home/glue_user/workspace/jupyter_workspace/lib
+    volumes: *volume_definition
+    ports:
+      - 4040:4040
+      - 18080:18080
+    stdin_open: true
+    tty: true
+    restart: "no"
+
+
+

@@ -1,0 +1,20 @@
+Resources:
+  PfEventsRule:
+    Type: "AWS::Events::Rule"
+    Properties:
+      EventBusName: "default"
+      EventPattern:
+        detail-type:
+          - "pf-resource-event"
+        source:
+          - "pf-resources"
+      Description: "Gets all the events for PF"
+      State: "ENABLED"
+      Targets:
+        - Arn: "<your cloudwatch log group arn>"
+          Id: "CustomLogGroupTarget"
+        - Arn: "<your event handler lambda arn>"
+          Id: "LambdaFunctionTarget"
+      Name: "pf-error-rule"
+    UpdateReplacePolicy: "Retain"
+    DeletionPolicy: "Retain"

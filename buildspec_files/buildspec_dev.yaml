@@ -1,0 +1,16 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+    commands:
+      # - pip install boto3
+  pre_build:
+    commands:
+      - python ./build_helpers/exec_pre_build.py dev
+  build: 
+    commands:
+      - python ./build_helpers/exec_build.py dev
+  post_build:
+    commands:
+      - python ./build_helpers/exec_post_build.py dev

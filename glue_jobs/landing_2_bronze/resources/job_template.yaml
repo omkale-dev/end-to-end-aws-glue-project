@@ -1,0 +1,52 @@
+# change the bucket names
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  GlueAssetsRootFolder:
+    Type: String
+    Default: s3://pf-code-assets
+  GlueIamRole:
+    Type: String
+    Default: aws_glue_full_access                                                                                                     
+  ScriptFolder:
+    Type: String
+    Default: landing_2_bronze/src
+  ScriptName:
+    Type: String
+    Default: landing_2_bronze.py
+  JobName:
+    Type: String
+    Default: test_l2b
+  
+  HelperFunctionsFolder:
+    Type: String
+    Default: lib
+
+  HelperFunctions:
+    Type: String
+    Default : helper_functions.py
+
+Resources:
+  PfL2B:
+      Type: AWS::Glue::Job   
+      Properties:
+        Name: !Ref JobName
+        Role: !Ref GlueIamRole
+        Description: Checking cicd for a glue job
+        Command:   
+          Name: glueetl
+          PythonVersion: 3
+          ScriptLocation: 
+            Fn::Join: [ "/", [!Ref GlueAssetsRootFolder, !Ref ScriptFolder, !Ref ScriptName] ]
+        GlueVersion: 4.0
+        DefaultArguments:
+          "--extra-py-files": 
+              Fn::Join: [ "/", [!Ref GlueAssetsRootFolder,!Ref HelperFunctionsFolder,!Ref HelperFunctions] ]
+        NumberOfWorkers: 2
+        WorkerType: G.1X
+        MaxRetries: 0
+        Timeout: 30
+        ExecutionProperty:   
+          MaxConcurrentRuns: 1
+
+

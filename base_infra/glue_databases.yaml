@@ -1,0 +1,18 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:
+  PfSilverDB:
+    Type: AWS::Glue::Database
+    Properties:
+      CatalogId: !Ref AWS::AccountId
+      DatabaseInput:
+        Name: pf_silver_db
+        LocationUri: s3://pf-silver/ # change it to your bucket
+        
+  PfGoldDB:
+    Type: AWS::Glue::Database
+    Properties:
+      CatalogId: !Ref AWS::AccountId
+      DatabaseInput:
+        Name: pf_gold_db
+        LocationUri: s3://pf-gold/ # change it to your bucket

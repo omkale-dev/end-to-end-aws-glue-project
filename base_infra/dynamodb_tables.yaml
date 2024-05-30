@@ -1,0 +1,38 @@
+Resources:
+  DynamoDBTablePfPipelineLogs:
+    Type: AWS::DynamoDB::Table
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+    Properties:
+      SSESpecification:
+        SSEEnabled: false
+      TableName: pf-pipeline-logs
+      AttributeDefinitions:
+        - AttributeName: task_run_id
+          AttributeType: S
+      ContributorInsightsSpecification:
+        Enabled: false
+      BillingMode: PAY_PER_REQUEST
+      ResourcePolicy:
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Sid: Statement1
+              Effect: Allow
+              Principal:
+                AWS:
+                  - arn:aws:iam::<your-ac-id>:role/<your-lambda-role>
+                  - arn:aws:iam::<your-ac-id>:user/<your-admin-user>
+                  - arn:aws:iam::<your-ac-id>:user/<your-local-user>
+              Action: dynamodb:*
+              Resource: arn:aws:dynamodb:us-east-1:<your-ac-id>:table/pf-pipeline-logs
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: false
+      KeySchema:
+        - AttributeName: task_run_id
+          KeyType: HASH
+      DeletionProtectionEnabled: false
+      TableClass: STANDARD
+      Tags: []
+      TimeToLiveSpecification:
+        Enabled: false

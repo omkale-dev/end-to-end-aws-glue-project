@@ -1,0 +1,60 @@
+# change the bucket names
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  GlueAssetsRootFolder:
+    Type: String
+    Default: s3://pf-code-assets
+  
+  GlueIamRole:
+    Type: String
+    Default: aws_glue_full_access                                                                                                     
+  ScriptFolder:
+    Type: String
+    Default: silver_2_gold/src
+
+  ScriptName:
+    Type: String
+    Default: silver_2_gold.py
+  
+  JobName:
+    Type: String
+    Default: test_s2g
+  
+  HelperFunctionsFolder:
+    Type: String
+    Default: lib
+
+  HelperFunctions:
+    Type: String
+    Default : helper_functions.py
+
+  DeltaLakeFormat:
+    Type: String
+    Default: delta
+    
+Resources:
+  GlueJob:
+      Type: AWS::Glue::Job   
+      Properties:
+        Name: !Ref JobName
+        Role: !Ref GlueIamRole
+        Description: Glue job that populates dim date
+        Command:   
+          Name: glueetl
+          PythonVersion: 3
+          ScriptLocation: 
+            Fn::Join: [ "/", [!Ref GlueAssetsRootFolder, !Ref ScriptFolder, !Ref ScriptName] ]
+        GlueVersion: 4.0
+        DefaultArguments:
+          "--extra-py-files": 
+              Fn::Join: [ "/", [!Ref GlueAssetsRootFolder,!Ref HelperFunctionsFolder,!Ref HelperFunctions] ]
+          "--datalake-formats": !Ref DeltaLakeFormat
+        NumberOfWorkers: 2
+        WorkerType: G.1X
+        MaxRetries: 0
+        Timeout: 30
+        ExecutionProperty:   
+          MaxConcurrentRuns: 1
+
+

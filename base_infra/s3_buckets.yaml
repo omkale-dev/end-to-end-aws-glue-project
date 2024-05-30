@@ -1,0 +1,64 @@
+# change the bucket names
+Resources:
+  PFLandingBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: pf-landing
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+
+  PFSilverBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: pf-silver
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+
+  PFBronzeBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: pf-bronze
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+
+  PFGoldBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: pf-gold
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+
+  PFAthenaBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: pf-athena-bucket
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+
+  PFDQFailedBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: pf-dq-failed
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+
+  PFCodeAssetsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: pf-code-assets
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+
+  PFCodePipelineBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: pf-code-pipeline
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+
+  PFAirflowBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: pf-airflow-dags
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain

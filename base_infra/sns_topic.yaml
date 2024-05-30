@@ -1,0 +1,9 @@
+Resources:
+  PfSNSTopic:
+    Type: "AWS::SNS::Topic"
+    Properties:
+      FifoTopic: false
+      Subscription:
+        - Endpoint: "<your email>"
+          Protocol: "email"
+      TopicName: "pf-comm-channel"
